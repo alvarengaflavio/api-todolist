@@ -38,12 +38,25 @@ const createTodoService = async (newTodo) => {
   };
 };
 
-const updateTodoService = async (id, editedTodo) => {
+const updateTodoService = async (editedTodo) => {
   /* The default value for the new option of findByIdAndUpdate/findOneAndUpdate has changed to false, which means returning the old doc. So you need to explicitly set the option to true to get the new version of the doc, after the update is applied */
-  const updatedTodo = await Todos.findByIdAndUpdate(id, editedTodo, {
-    new: true,
-  });
-  return updatedTodo;
+  const oldTodo = await Todos.findOne({ todo_id: editedTodo.id });
+  if (oldTodo === null) return null;
+
+  console.log(editedTodo);
+  oldTodo.todo = editedTodo.todo;
+  oldTodo.completed = editedTodo.completed;
+  oldTodo.created_at = editedTodo.created_at;
+  oldTodo.completed_at = editedTodo.completed_at;
+  oldTodo.save();
+
+  return {
+    id: oldTodo.todo_id,
+    todo: oldTodo.todo,
+    completed: oldTodo.completed,
+    created_at: oldTodo.created_at,
+    completed_at: oldTodo.completed,
+  };
 };
 
 const deleteTodoService = async (id) => {

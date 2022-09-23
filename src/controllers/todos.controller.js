@@ -23,7 +23,6 @@ const findByIdTodoController = async (req, res) => {
 
 const createTodoController = async (req, res) => {
   try {
-    // req.body contains id -> via middleware
     const newPaleta = await todosService.createTodoService(req.body);
     res.status(201).send(newPaleta);
   } catch (err) {
@@ -33,13 +32,10 @@ const createTodoController = async (req, res) => {
 
 const updateTodoController = async (req, res) => {
   try {
-    const idParam = req.params.id;
-    const editPaleta = req.body;
-    const updatedPaleta = await todosService.updateTodoService(
-      idParam,
-      editPaleta,
-    );
-    res.send(updatedPaleta);
+    // req.body contains id -> via middleware
+    const editTodo = req.body;
+    const updatedTodo = await todosService.updateTodoService(editTodo);
+    res.send(updatedTodo);
   } catch (err) {
     ErrorHandler.handleError(err, req, res);
   }

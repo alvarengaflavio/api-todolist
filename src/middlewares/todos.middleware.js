@@ -47,7 +47,7 @@ const validadeBodyAndIdObject = (req, res, next) => {
   try {
     const todo = new TodoEntity(req.body);
     todo.validate();
-    todo.todo_id = req.params.id;
+    todo.todo_id = +req.params.id;
     todo.validateId();
     req.body = todo.getTodo();
     // TODO already validated and with ID on req.body

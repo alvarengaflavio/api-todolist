@@ -5,7 +5,7 @@ const TodoSchema = new Schema({
   todo: { type: String, required: true, minLength: 8, maxLength: 60 },
   completed: { type: Boolean, default: false },
   created_at: { type: String, required: true },
-  completed_at: { type: String || false, default: false },
+  completed_at: { default: false },
 });
 
 const Todo = model('todos', TodoSchema);
