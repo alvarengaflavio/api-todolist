@@ -1,36 +1,63 @@
-const mongoose = require('mongoose');
+const { TodoEntity } = require('../entities/todo.entity');
+const { ErrorHandler } = require('./.error/error.handler');
+const { ObjectId } = require('mongoose').Types;
 
-const validadeId = (req, res, next) => {
+const validadeMongoId = (req, res, next) => {
+  // UseCase: By-ID, DELETE -> GET, DELETE
   try {
     const idParam = req.params.id;
-    if (!mongoose.Types.ObjectId.isValid(idParam)) {
+    if (!ObjectId.isValid(idParam)) {
       throw new Error('Invalid ID parameter');
     }
     next();
   } catch (err) {
-    return res.status(400).send({ message: err.message });
+    ErrorHandler.handleError(err, req, res);
+  }
+};
+
+const validadeTodoId = (req, res, next) => {
+  // UseCase: By-ID, DELETE -> GET, DELETE
+  try {
+    if (!TodoEntity.validateTodoId(req.params.id))
+      throw { name: 'ValidationError', message: 'Invalid todo id' };
+
+    next();
+  } catch (err) {
+    ErrorHandler.handleError(err, req, res);
   }
 };
 
 const validadeBodyObject = (req, res, next) => {
+  // UseCase: CREATE -> POST
   try {
-    const editPaleta = req.body;
-    if (
-      !editPaleta ||
-      !editPaleta.sabor ||
-      !editPaleta.descricao ||
-      !editPaleta.foto ||
-      !editPaleta.preco
-    ) {
-      throw new Error('Invalid Paleta Json body');
-    }
+    const todo = new TodoEntity(req.body);
+    todo.validate();
+    req.body = todo.getTodo();
+
     next();
   } catch (err) {
-    return res.status(400).send({ message: err.message });
+    ErrorHandler.handleError(err, req, res);
+  }
+};
+
+const validadeBodyAndIdObject = (req, res, next) => {
+  // UseCase: UPDATE -> PUT
+  try {
+    const todo = new TodoEntity(req.body);
+    todo.validate();
+    todo.todo_id = req.params.id;
+    todo.validateId();
+    req.body = todo.getTodo();
+    // TODO already validated and with ID on req.body
+    next();
+  } catch (err) {
+    ErrorHandler.handleError(err, req, res);
   }
 };
 
 module.exports = {
-  validadeId,
+  validadeMongoId,
+  validadeTodoId,
   validadeBodyObject,
+  validadeBodyAndIdObject,
 };
