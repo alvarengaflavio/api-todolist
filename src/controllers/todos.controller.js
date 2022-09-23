@@ -13,9 +13,8 @@ const findAllTodosController = async (req, res) => {
 const findByIdTodoController = async (req, res) => {
   try {
     const chosenTodo = await todosService.findByIdTodoService(req.params.id);
-    if (!chosenTodo) {
-      throw new Error('ID not found');
-    }
+    if (!chosenTodo)
+      throw { name: 'NotFoundError', message: 'Todo ID not found' };
     res.send(chosenTodo);
   } catch (err) {
     ErrorHandler.handleError(err, req, res);

@@ -13,6 +13,7 @@ const findAllTodosService = async () => {
 
 const findByIdTodoService = async (id) => {
   const byIdPaleta = await Todos.findOne({ todo_id: id });
+  if (byIdPaleta === null) return null;
   console.log(byIdPaleta);
   return {
     id: byIdPaleta.todo_id,
@@ -23,11 +24,11 @@ const findByIdTodoService = async (id) => {
   };
 };
 
-const createTodoService = async (newPaleta) => {
+const createTodoService = async (newTodo) => {
   const todoList = await findAllTodosService();
   const newTodoId = findFreeId(todoList);
-  newPaleta.todo_id = newTodoId;
-  const createdPaleta = await Todos.create(newPaleta);
+  newTodo.todo_id = newTodoId;
+  const createdPaleta = await Todos.create(newTodo);
   return {
     id: createdPaleta.todo_id,
     todo: createdPaleta.todo,
@@ -37,12 +38,12 @@ const createTodoService = async (newPaleta) => {
   };
 };
 
-const updateTodoService = async (id, editedPaleta) => {
+const updateTodoService = async (id, editedTodo) => {
   /* The default value for the new option of findByIdAndUpdate/findOneAndUpdate has changed to false, which means returning the old doc. So you need to explicitly set the option to true to get the new version of the doc, after the update is applied */
-  const updatedPaleta = await Todos.findByIdAndUpdate(id, editedPaleta, {
+  const updatedTodo = await Todos.findByIdAndUpdate(id, editedTodo, {
     new: true,
   });
-  return updatedPaleta;
+  return updatedTodo;
 };
 
 const deleteTodoService = async (id) => {
