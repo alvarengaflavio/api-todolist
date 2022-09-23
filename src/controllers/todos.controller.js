@@ -1,71 +1,72 @@
-const paletasService = require('../services/todos.service');
+const { ErrorHandler } = require('../middlewares/.error/error.handler');
+const todosService = require('../services/todos.service');
 
-const findAllPaletasController = async (req, res) => {
+const findAllTodosController = async (req, res) => {
   try {
-    const allPaletas = await paletasService.findAllPaletasService();
-    res.send(allPaletas);
+    const allTodos = await todosService.findAllTodosService();
+    res.send(allTodos);
   } catch (err) {
-    res.status(400).send({ message: err.message });
+    ErrorHandler.handleError(err, req, res);
   }
 };
 
-const findByIdPaletaController = async (req, res) => {
+const findByIdTodoController = async (req, res) => {
   try {
     const idParam = req.params.id;
-    const chosenPaleta = await paletasService.findByIdPaletaService(idParam);
-    if (!chosenPaleta) {
+    const chosenTodo = await todosService.findByIdTodoService(idParam);
+    if (!chosenTodo) {
       throw new Error('ID not found');
     }
-    res.send(chosenPaleta);
+    res.send(chosenTodo);
   } catch (err) {
-    res.status(400).send({ message: err.message });
+    ErrorHandler.handleError(err, req, res);
   }
 };
 
-const createPaletaController = async (req, res) => {
+const createTodoController = async (req, res) => {
   try {
-    const onePaleta = req.body;
-    const newPaleta = await paletasService.createPaletaService(onePaleta);
+    // req.body contains id -> via middleware
+    const newPaleta = await todosService.createTodoService(req.body);
     res.status(201).send(newPaleta);
   } catch (err) {
-    res.status(400).send({ message: err.message });
+    ErrorHandler.handleError(err, req, res);
   }
 };
 
-const updatePaletaController = async (req, res) => {
+const updateTodoController = async (req, res) => {
   try {
     const idParam = req.params.id;
     const editPaleta = req.body;
-    const updatedPaleta = await paletasService.updatePaletaService(
+    const updatedPaleta = await todosService.updateTodoService(
       idParam,
       editPaleta,
     );
     res.send(updatedPaleta);
   } catch (err) {
-    res.status(400).send({ message: err.message });
+    ErrorHandler.handleError(err, req, res);
   }
 };
 
-const deletePaletaController = async (req, res) => {
+const deleteTodoController = async (req, res) => {
   try {
     const idParam = req.params.id;
-    const deletedPaleta = await paletasService.deletePaletaService(idParam);
-    if (deletedPaleta === null || deletedPaleta === undefined) {
+    const deletedTodo = await todosService.deleteTodoService(idParam);
+    if (deletedTodo === null || deletedTodo === undefined) {
       throw new Error('ID not found!');
     }
     res.send({
-      message: 'Successfully deleted Palette!',
-      palette: deletedPaleta,
+      message: 'Successfully deleted Todo!',
+      palette: deletedTodo,
     });
   } catch (err) {
-    return res.status(400).send({ message: err.message });
+    ErrorHandler.handleError(err, req, res);
   }
 };
 
 module.exports = {
-  findAllPaletasController,
-  findByIdPaletaController,
-  createPaletaController,
-  updatePaletaController,
-  deletePaletaController,
+  findAllTodosController,
+  findByIdTodoController,
+  createTodoController,
+  updateTodoController,
+  deleteTodoController,
 };

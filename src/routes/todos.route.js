@@ -1,5 +1,5 @@
 const route = require('express').Router();
-const controllerPaletas = require('../controllers/todos.controller');
+const controllerTodos = require('../controllers/todos.controller');
 const {
   validadeTodoId,
   validadeBodyObject,
@@ -7,30 +7,26 @@ const {
 } = require('../middlewares/todos.middleware');
 
 /* GET ALL */
-route.get('/find-all', controllerPaletas.findAllPaletasController);
+route.get('/find-all', controllerTodos.findAllTodosController);
 /* GET BY ID */
 route.get(
-  '/todo-id/:id',
+  '/todo/:id',
   validadeTodoId,
-  controllerPaletas.findByIdPaletaController,
+  controllerTodos.findByIdTodoController,
 );
 /* CREATE TODO */
-route.post(
-  '/create',
-  validadeBodyObject,
-  controllerPaletas.createPaletaController,
-);
+route.post('/create', validadeBodyObject, controllerTodos.createTodoController);
 /* UPDATE BY ID */
 route.put(
   '/update/:id',
   validadeBodyAndIdObject,
-  controllerPaletas.updatePaletaController,
+  controllerTodos.updateTodoController,
 );
 /* DELETE BY ID */
 route.delete(
   '/delete/:id',
   validadeTodoId,
-  controllerPaletas.deletePaletaController,
+  controllerTodos.deleteTodoController,
 );
 
 module.exports = route;
