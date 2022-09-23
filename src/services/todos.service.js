@@ -12,7 +12,8 @@ const findAllTodosService = async () => {
 };
 
 const findByIdTodoService = async (id) => {
-  const byIdPaleta = await Todos.find({ todo_id: id });
+  const byIdPaleta = await Todos.findOne({ todo_id: id });
+  console.log(byIdPaleta);
   return {
     id: byIdPaleta.todo_id,
     todo: byIdPaleta.todo,

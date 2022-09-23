@@ -18,9 +18,11 @@ const validadeMongoId = (req, res, next) => {
 const validadeTodoId = (req, res, next) => {
   // UseCase: By-ID, DELETE -> GET, DELETE
   try {
-    if (!TodoEntity.validateTodoId(req.params.id))
+    const idParam = +req.params.id;
+    if (!TodoEntity.validateTodoId(idParam))
       throw { name: 'ValidationError', message: 'Invalid todo id' };
 
+    req.params.id = idParam;
     next();
   } catch (err) {
     ErrorHandler.handleError(err, req, res);

@@ -12,8 +12,7 @@ const findAllTodosController = async (req, res) => {
 
 const findByIdTodoController = async (req, res) => {
   try {
-    const idParam = req.params.id;
-    const chosenTodo = await todosService.findByIdTodoService(idParam);
+    const chosenTodo = await todosService.findByIdTodoService(req.params.id);
     if (!chosenTodo) {
       throw new Error('ID not found');
     }
