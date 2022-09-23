@@ -12,9 +12,8 @@ process.env.NODE_ENV !== 'production'
   : ((port.port = process.env.PORT), (port.url = port.port));
 
 const connectToDatabase = require('./src/database/database');
-/* Novo trecho */
+
 connectToDatabase();
-/* Novo Trecho */
 
 app.use(express.json());
 app.use(cors());
