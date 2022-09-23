@@ -1,4 +1,4 @@
-export class ErrorHandler {
+class ErrorHandler {
   static handleError(err, req, res) {
     if (err.name === 'ValidationError') {
       return res.status(400).send({ message: err.message });
@@ -33,3 +33,5 @@ export class ErrorHandler {
     return res.status(500).send({ message: err.message });
   }
 }
+
+module.exports = { ErrorHandler };
