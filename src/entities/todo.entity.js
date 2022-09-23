@@ -1,10 +1,10 @@
 class TodoEntity {
-  constructor({ id, todo, completed, created_at, updated_at }) {
+  constructor({ id, todo, completed, created_at, completed_at }) {
     this.todo_id = id ?? undefined;
     this.todo = todo;
     this.completed = completed;
     this.created_at = created_at;
-    this.completed_at = updated_at ?? false;
+    this.completed_at = completed_at ?? false;
   }
 
   validate() {
