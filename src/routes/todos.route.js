@@ -1,22 +1,20 @@
-
 const route = require('express').Router();
 const controllerPaletas = require('../controllers/todos.controller');
 const {
-  validadeId,
+  validadeTodoId,
   validadeBodyObject,
+  validadeBodyAndIdObject,
 } = require('../middlewares/todos.middleware');
-
-
 
 /* GET ALL */
 route.get('/find-all', controllerPaletas.findAllPaletasController);
 /* GET BY ID */
 route.get(
-  '/paleta-id/:id',
-  validadeId,
+  '/todo-id/:id',
+  validadeTodoId,
   controllerPaletas.findByIdPaletaController,
 );
-/* CREATE PALETA */
+/* CREATE TODO */
 route.post(
   '/create',
   validadeBodyObject,
@@ -25,14 +23,13 @@ route.post(
 /* UPDATE BY ID */
 route.put(
   '/update/:id',
-  validadeId,
-  validadeBodyObject,
+  validadeBodyAndIdObject,
   controllerPaletas.updatePaletaController,
 );
 /* DELETE BY ID */
 route.delete(
   '/delete/:id',
-  validadeId,
+  validadeTodoId,
   controllerPaletas.deletePaletaController,
 );
 
