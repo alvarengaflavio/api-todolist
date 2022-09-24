@@ -59,10 +59,11 @@ const updateTodoService = async (editedTodo) => {
 };
 
 const deleteTodoService = async (id) => {
-  const deletedTodo = await Todos.findOne({ todo_id: id });
-  if (!deletedTodo) return null;
+  const selectTodo = await Todos.findOne({ todo_id: id });
+  if (!selectTodo) return null;
+
+  const deletedTodo = await Todos.findByIdAndDelete(selectTodo.id);
   return deletedTodo;
-  // return await Paletas.findByIdAndDelete(id);
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////

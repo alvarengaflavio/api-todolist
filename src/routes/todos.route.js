@@ -9,11 +9,7 @@ const {
 /* GET ALL */
 route.get('/find-all', controllerTodos.findAllTodosController);
 /* GET BY ID */
-route.get(
-  '/todo/:id',
-  validadeTodoId,
-  controllerTodos.findByIdTodoController,
-);
+route.get('/todo/:id', validadeTodoId, controllerTodos.findByIdTodoController);
 /* CREATE TODO */
 route.post('/create', validadeBodyObject, controllerTodos.createTodoController);
 /* UPDATE BY ID */

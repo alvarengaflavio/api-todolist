@@ -44,7 +44,7 @@ const updateTodoController = async (req, res) => {
 const deleteTodoController = async (req, res) => {
   try {
     const deletedTodo = await todosService.deleteTodoService(req.params.id);
-    if (deletedTodo === null || deletedTodo === undefined) {
+    if (deletedTodo === null) {
       throw new Error('ID not found!');
     }
     res.send({
