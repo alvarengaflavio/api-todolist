@@ -7,7 +7,7 @@ const findAllTodosService = async () => {
     todo: item.todo,
     completed: item.completed,
     created_at: item.created_at,
-    completed_at: item.completed,
+    completed_at: item.completed_at,
   }));
 };
 
@@ -20,7 +20,7 @@ const findByIdTodoService = async (id) => {
     todo: byIdPaleta.todo,
     completed: byIdPaleta.completed,
     created_at: byIdPaleta.created_at,
-    completed_at: byIdPaleta.completed,
+    completed_at: byIdPaleta.completed_at,
   };
 };
 
@@ -34,7 +34,7 @@ const createTodoService = async (newTodo) => {
     todo: createdPaleta.todo,
     completed: createdPaleta.completed,
     created_at: createdPaleta.created_at,
-    completed_at: createdPaleta.completed,
+    completed_at: createdPaleta.completed_at,
   };
 };
 
@@ -43,25 +43,25 @@ const updateTodoService = async (editedTodo) => {
   const oldTodo = await Todos.findOne({ todo_id: editedTodo.id });
   if (oldTodo === null) return null;
 
-  console.log(editedTodo);
   oldTodo.todo = editedTodo.todo;
   oldTodo.completed = editedTodo.completed;
   oldTodo.created_at = editedTodo.created_at;
   oldTodo.completed_at = editedTodo.completed_at;
-  oldTodo.save();
+  await oldTodo.save();
 
   return {
     id: oldTodo.todo_id,
     todo: oldTodo.todo,
     completed: oldTodo.completed,
     created_at: oldTodo.created_at,
-    completed_at: oldTodo.completed,
+    completed_at: oldTodo.completed_at,
   };
 };
 
 const deleteTodoService = async (id) => {
-  const deletedPaleta = await Todos.findByIdAndDelete(id);
-  return deletedPaleta;
+  const deletedTodo = await Todos.findOne({ todo_id: id });
+  if (!deletedTodo) return null;
+  return deletedTodo;
   // return await Paletas.findByIdAndDelete(id);
 };
 
