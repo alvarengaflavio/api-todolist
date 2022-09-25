@@ -24,6 +24,8 @@ const findByIdTodoController = async (req, res) => {
 const createTodoController = async (req, res) => {
   try {
     const newPaleta = await todosService.createTodoService(req.body);
+    if (!newPaleta)
+      throw { name: 'InternalServerError', message: 'Todo not created' };
     res.status(201).send(newPaleta);
   } catch (err) {
     ErrorHandler.handleError(err, req, res);
@@ -33,8 +35,9 @@ const createTodoController = async (req, res) => {
 const updateTodoController = async (req, res) => {
   try {
     // req.body contains id -> via middleware
-    const editTodo = req.body;
-    const updatedTodo = await todosService.updateTodoService(editTodo);
+    const updatedTodo = await todosService.updateTodoService(req.body);
+    if (!updatedTodo)
+      throw { name: 'NotFoundError', message: 'Todo ID not found' };
     res.send(updatedTodo);
   } catch (err) {
     ErrorHandler.handleError(err, req, res);
@@ -44,9 +47,8 @@ const updateTodoController = async (req, res) => {
 const deleteTodoController = async (req, res) => {
   try {
     const deletedTodo = await todosService.deleteTodoService(req.params.id);
-    if (deletedTodo === null) {
-      throw new Error('ID not found!');
-    }
+    if (deletedTodo === null)
+      throw { name: 'NotFoundError', message: 'Todo ID not found' };
     res.send({
       message: 'Successfully deleted Todo!',
       palette: deletedTodo,
