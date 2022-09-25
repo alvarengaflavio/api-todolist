@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "API Paleta Hipster",
-    "description": "API for CRUD operations on Paleta Hipster",
+    "title": "API Todo List - Alvalenda",
+    "description": "API for CRUD operations on API Todo List",
     "termsOfService": "",
     "contact": {
       "name": "Flavio Alvarenga",
@@ -17,20 +17,20 @@
   },
   "servers": [
     {
-      "url": "https://api-paletahipster.herokuapp.com/paletas",
+      "url": "https://api-paletahipster.herokuapp.com/todos",
       "description": "Production server"
     },
     {
-      "url": "http://localhost:3000/paletas",
+      "url": "http://localhost:3000/todos",
       "description": "Development server"
     }
   ],
   "paths": {
     "/find-all": {
       "get": {
-        "tags": [["Paleta", "Paletas"]],
-        "summary": "List containing all paletas",
-        "description": "Rout responsible for listing all paletas",
+        "tags": [["Todo"]],
+        "summary": "List containing all Todos",
+        "description": "Rout responsible for listing all todos",
         "responses": {
           "200": {
             "description": "OK",
@@ -39,7 +39,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Paleta"
+                    "$ref": "#/components/schemas/Todo"
                   }
                 }
               }
@@ -51,16 +51,16 @@
         }
       }
     },
-    "/paleta-id/{id}": {
+    "/todo/{id}": {
       "get": {
-        "tags": [["Paleta"]],
-        "summary": "Find paleta by id",
-        "description": "Rout responsible for finding paleta by id",
+        "tags": [["Todo"]],
+        "summary": "Find todo by id",
+        "description": "Rout responsible for finding todo by id",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "Id of paleta to be found",
+            "description": "ID of todo to be found",
             "required": true
           }
         ],
@@ -71,7 +71,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/components/schemas/Paleta"
+                  "$ref": "#/components/schemas/Todo"
                 }
               }
             }
@@ -84,14 +84,14 @@
     },
     "/create": {
       "post": {
-        "tags": [["Paleta"]],
-        "summary": "Create a paleta",
-        "description": "Rout responsible for creating paleta",
+        "tags": [["Todo"]],
+        "summary": "Create a todo",
+        "description": "Rout responsible for creating todo",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Paleta"
+                "$ref": "#/components/schemas/Todo"
               }
             }
           },
@@ -99,12 +99,12 @@
         },
         "examples": {
           "application/json": {
-            "summary": "Example of paleta",
+            "summary": "Example of todo",
             "value": {
-              "sabor": "Paleta 1",
-              "descricao": "Paleta 1 description",
-              "foto": "./assets/images/paleta1.jpg",
-              "preco": 10.0
+              "todo": "Task of todo 1",
+              "completed": false,
+              "created_at": "25/09/2022 07:55:15",
+              "completed_at": "25/09/2022 13:42:56"
             }
           }
         },
@@ -115,7 +115,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/components/schemas/Paleta"
+                  "$ref": "#/components/schemas/Todo"
                 }
               }
             }
@@ -128,14 +128,14 @@
     },
     "/update/{id}": {
       "put": {
-        "tags": [["Paleta"]],
-        "summary": "Update a paleta by id",
-        "description": "Rout responsible for updating paleta",
+        "tags": [["Todo"]],
+        "summary": "Update a todo by id",
+        "description": "Rout responsible for updating a todo",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "Id of paleta to be updated",
+            "description": "Id of todo to be updated",
             "required": true
           }
         ],
@@ -143,7 +143,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Paleta"
+                "$ref": "#/components/schemas/Todo"
               }
             }
           },
@@ -151,12 +151,12 @@
         },
         "examples": {
           "application/json": {
-            "summary": "Example of paleta",
+            "summary": "Example of todo",
             "value": {
-              "sabor": "Paleta 1 edited",
-              "descricao": "Paleta 1 description edited",
-              "foto": "./assets/images/paleta1.jpg",
-              "preco": 7.0
+              "todo": "Task of todo 1 edited",
+              "completed": false,
+              "created_at": "25/09/2022 07:55:15",
+              "completed_at": "25/09/2022 13:42:56"
             }
           }
         },
@@ -167,7 +167,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/components/schemas/Paleta"
+                  "$ref": "#/components/schemas/Todo"
                 }
               }
             }
@@ -180,14 +180,14 @@
     },
     "/delete/{id}": {
       "delete": {
-        "tags": [["Paleta"]],
-        "summary": "Delete a paleta by id",
-        "description": "Rout responsible for deleting paleta",
+        "tags": [["Todo"]],
+        "summary": "Delete a todo by id",
+        "description": "Rout responsible for deleting a todo",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "Id of paleta to be deleted",
+            "description": "Id of todo to be deleted",
             "required": true
           }
         ],
@@ -198,7 +198,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/components/schemas/Paleta"
+                  "$ref": "#/components/schemas/Todo"
                 }
               }
             }
@@ -212,20 +212,25 @@
   },
   "components": {
     "schemas": {
-      "Paleta": {
+      "Todo": {
         "type": "object",
         "properties": {
-          "sabor": {
-            "type": "string"
+          "todo": {
+            "type": "string",
+            "minLength": "8",
+            "maxLength": "60"
           },
-          "descricao": {
-            "type": "string"
+          "completed": {
+            "type": "boolean"
           },
-          "foto": {
-            "type": "string"
+          "created_at": {
+            "type": "string",
+            "pattern": "^([1-9]|([012][0-9])|(3[01]))\\-([0]{0,1}[1-9]|1[012])\\-\\d\\d\\d\\d\\s([0-1]?[0-9]|2?[0-3]):([0-5]\\d)$"
           },
-          "preco": {
-            "type": "number"
+          "completed_at": {
+            "type": "string",
+            "pattern": "^([1-9]|([012][0-9])|(3[01]))\\-([0]{0,1}[1-9]|1[012])\\-\\d\\d\\d\\d\\s([0-1]?[0-9]|2?[0-3]):([0-5]\\d)$",
+            "nullable": true
           }
         }
       }
