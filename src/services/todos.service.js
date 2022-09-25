@@ -7,20 +7,19 @@ const findAllTodosService = async () => {
     todo: item.todo,
     completed: item.completed,
     created_at: item.created_at,
-    completed_at: item.completed_at,
+    completed_at: item.completed_at ? item.completed_at : null,
   }));
 };
 
 const findByIdTodoService = async (id) => {
-  const byIdPaleta = await Todos.findOne({ todo_id: id });
-  if (byIdPaleta === null) return null;
-  console.log(byIdPaleta);
+  const byIdTodo = await Todos.findOne({ todo_id: id });
+  if (byIdTodo === null) return null;
   return {
-    id: byIdPaleta.todo_id,
-    todo: byIdPaleta.todo,
-    completed: byIdPaleta.completed,
-    created_at: byIdPaleta.created_at,
-    completed_at: byIdPaleta.completed_at,
+    id: byIdTodo.todo_id,
+    todo: byIdTodo.todo,
+    completed: byIdTodo.completed,
+    created_at: byIdTodo.created_at,
+    completed_at: byIdTodo.completed_at ? byIdTodo.completed_at : null,
   };
 };
 
@@ -28,13 +27,13 @@ const createTodoService = async (newTodo) => {
   const todoList = await findAllTodosService();
   const newTodoId = findFreeId(todoList);
   newTodo.todo_id = newTodoId;
-  const createdPaleta = await Todos.create(newTodo);
+  const createdTodo = await Todos.create(newTodo);
   return {
-    id: createdPaleta.todo_id,
-    todo: createdPaleta.todo,
-    completed: createdPaleta.completed,
-    created_at: createdPaleta.created_at,
-    completed_at: createdPaleta.completed_at,
+    id: createdTodo.todo_id,
+    todo: createdTodo.todo,
+    completed: createdTodo.completed,
+    created_at: createdTodo.created_at,
+    completed_at: createdTodo.completed_at ? createdTodo.completed_at : null,
   };
 };
 
@@ -54,7 +53,7 @@ const updateTodoService = async (editedTodo) => {
     todo: oldTodo.todo,
     completed: oldTodo.completed,
     created_at: oldTodo.created_at,
-    completed_at: oldTodo.completed_at,
+    completed_at: oldTodo.completed_at ? oldTodo.completed_at : null,
   };
 };
 
