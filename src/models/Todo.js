@@ -1,7 +1,13 @@
 const { Schema, model } = require('mongoose');
 
 const TodoSchema = new Schema({
-  todo_id: { type: Number, required: true, immutable: true, unique: true },
+  todo_id: {
+    type: Number,
+    required: true,
+    unique: true,
+    immutable: true,
+    unique: true,
+  },
   todo: { type: String, required: true, minLength: 8, maxLength: 60 },
   completed: { type: Boolean, default: false },
   created_at: { type: String, required: true },
