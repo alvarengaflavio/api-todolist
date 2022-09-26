@@ -17,7 +17,7 @@
   },
   "servers": [
     {
-      "url": "https://api-paletahipster.herokuapp.com/todos",
+      "url": "https://api-todolist-alvalenda.herokuapp.com/",
       "description": "Production server"
     },
     {
